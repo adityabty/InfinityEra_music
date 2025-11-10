@@ -26,9 +26,12 @@ print("✅ PyTgCalls Client initialized.")
 
 async def main():
     
-    # --- 3. Database Connection ---
-    # init_db() फ़ंक्शन database/connect.py से कनेक्ट होगा और कनेक्शन की पुष्टि करेगा।
-    await init_db() 
+    # main.py
+
+# ... (other imports)
+from database.connect import init_db # सुनिश्चित करें कि यह सही है
+# ...
+
     
     # --- 4. Start Clients ---
     print("\n🚀 Starting InfinityEra Bot (Pyrogram & PyTgCalls)...")
