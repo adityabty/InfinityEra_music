@@ -41,3 +41,9 @@ unidecode
 wget
 yt-dlp
 youtube-search-python
+pyrogram
+python-dotenv
+pymongo
+yt-dlp
+Pillow
+
