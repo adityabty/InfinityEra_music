@@ -5,11 +5,11 @@ from pyrogram import idle
 from pytgcalls.exceptions import NoActiveGroupCall
 
 import config
-from Bot import LOGGER, app, userbot
-from Bot.core.call import JARVIS
-from Bot.misc import sudo
+from pyrogram import LOGGER, app, userbot
+from pyrogram.core.call import JARVIS
+from pyrogram.misc import sudo
 from Bot.plugins import ALL_MODULES
-from Bot.utils.database import get_banned_users, get_gbanned
+from pyrogram.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
 
 
