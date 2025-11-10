@@ -8,7 +8,7 @@ import config
 from pyrogram import LOGGER, app, userbot
 from pyrogram.core.call import JARVIS
 from pyrogram.misc import sudo
-from Bot.plugins import ALL_MODULES
+from pyrogram.plugins import ALL_MODULES
 from pyrogram.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
 
