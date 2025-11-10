@@ -29,7 +29,7 @@ async def main():
     # main.py
 
 # ... (other imports)
-from database.connect import init_db # सुनिश्चित करें कि यह सही है
+from database.connect import init_db() # सुनिश्चित करें कि यह सही है
 # ...
 
     
