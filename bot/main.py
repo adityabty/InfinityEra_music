@@ -68,6 +68,8 @@ async def main():
         print("Please check your API_ID, API_HASH, and BOT_TOKEN in config.py / .env.")
     finally:
         # अगर कोई FATAL ERROR होती है, तो क्लाइंट्स को शालीनता से बंद करें
+        # Note: If app.start() failed, app.stop() will raise ConnectionError
+        # We can safely ignore ConnectionError: Client is already terminated here.
         await app.stop()
         await vc_client.stop()
         print("\n😴 Bot stopped.")
@@ -78,4 +80,4 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         print("\nUser requested shutdown (Ctrl+C). Exiting...")
-
+        
