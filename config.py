@@ -1,17 +1,27 @@
-
-# config.py
 import os
+from dotenv import load_dotenv
 
-API_ID = int(os.environ.get("API_ID", "123456"))      # अपने API_ID डालो
-API_HASH = os.environ.get("API_HASH", "your_api_hash")
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "your_bot_token")
+# .env फ़ाइल से वेरिएबल्स लोड करें (सुरक्षा के लिए)
+load_dotenv()
 
-YT_API_KEY = os.environ.get("YT_API_KEY", "your_youtube_api_key")  # optional (we use search lib)
-MONGO_URI = os.environ.get("MONGO_URI", "mongodb+srv://user:pass@cluster.mongodb.net/InfinityEra")
+# Telegram Bot API
+API_ID = int(os.getenv("API_ID", 123456))
+API_HASH = os.getenv("API_HASH", "YOUR_API_HASH")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "YOUR_BOT_TOKEN")
+OWNER_ID = int(os.getenv("OWNER_ID", 123456789))
 
-OWNER_ID = int(os.environ.get("OWNER_ID", "123456789"))
-LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "-1001234567890"))  # dev log channel id
+# Voice Chat (PyTgCalls) Settings
+SESSION_NAME = os.getenv("SESSION_NAME", "InfinityEraMusic") # Pyrogram session name
 
-# temp dir for downloads
-DOWNLOADS_DIR = os.environ.get("DOWNLOADS_DIR", "./downloads")
-os.makedirs(DOWNLOADS_DIR, exist_ok=True)
+# MongoDB Settings
+MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
+DB_NAME = "InfinityEraDB"
+
+# Developer Log Channel
+LOG_CHANNEL_ID = int(os.getenv("LOG_CHANNEL_ID", -100123456789))
+
+# Bot Info/Branding
+SUPPORT_CHAT = "https://t.me/YourSupportChat"
+UPDATE_CHANNEL = "https://t.me/YourUpdateChannel"
+DEVELOPER_USER = "YourDeveloperUsername"
+BRANDING_TEXT = "∞ InfinityEra"
