@@ -3,17 +3,17 @@
 import asyncio
 import importlib
 import os 
-from pyrogram import Client, idle
+from pyrogram import Client, idle # <--- Client यहां इंपोर्टेड है
 from pytgcalls import PyTgCalls
 from pytgcalls.exceptions import NoActiveGroupCall
 
 from config import API_ID, API_HASH, BOT_TOKEN, SESSION_NAME, LOG_CHANNEL_ID
 from database.connect import init_db 
-# Assumption: You have a list of all module filenames (e.g., ['start', 'play', 'admin'])
-# We will create a simple ALL_MODULES list here for demonstration:
+
+# हमने सादगी के लिए ALL_MODULES लिस्ट यहाँ परिभाषित की है
 ALL_MODULES = ['start', 'help', 'welcome', 'leave', 'admin', 'player', 'controls']
 
-# --- Client Initialization (as defined previously) ---
+# --- Client Initialization (जैसा कि आपने अंतिम कोड में किया था) ---
 print("⚙️ Initializing Pyrogram Client...")
 app = Client(
     SESSION_NAME,
@@ -24,13 +24,11 @@ app = Client(
 print("✅ Pyrogram Client initialized.")
 
 print("⚙️ Initializing PyTgCalls Client...")
-# vc_client is your JARVIS equivalent for VC handling
 vc_client = PyTgCalls(app) 
 print("✅ PyTgCalls Client initialized.")
 
 # --- Helper for Logging (Simplified) ---
 def LOGGER(name):
-    # In a simple setup, we just use print, but you can integrate your database/logs.py here
     def log_print(message):
         print(f"[{name}] {message}")
     return log_print
@@ -41,16 +39,11 @@ async def init():
     # 1. Database and Startup Checks
     await init_db() 
     
-    # Note: Your InfinityEra bot does not use STRING sessions, 
-    # so the session check is not needed here.
-    
-    # Note: Your InfinityEra bot does not currently implement
-    # global banning or sudo checks in the startup file.
-    
     # 2. Start Clients
     await app.start()
     
-    # 3. Module Loading (Loads handlers from the 'handlers' and 'music' folders)
+    # 3. Module Loading (Loads handlers)
+    # यह वह सेक्शन है जो NameError पैदा कर रहा है
     for module_name in ALL_MODULES:
         try:
             # Try loading handlers/ module first
@@ -63,21 +56,15 @@ async def init():
                 LOGGER("XMUSIC.plugins").error(f"Module {module_name} not found.")
 
     LOGGER("XMUSIC.plugins").info("ᴍᴏᴅᴜʟᴇs ʟᴏᴀᴅᴇᴅ...")
-
-    # Note: userbot is not used in your simpler setup, so we skip userbot.start()
     
     await vc_client.start()
 
-    # 4. VC Check (Simplified) - Using a dummy stream test
+    # 4. VC Check (Simplified) - Using LOG_CHANNEL_ID for the test
     try:
-        # NOTE: Since this bot runs on the main client 'app', 
-        # it must join a group chat where it has been added and VC is on.
-        # We need a LOG_GROUP_ID for this check, assuming LOG_CHANNEL_ID is a Group/Channel ID
         await vc_client.stream_call(
-            LOG_CHANNEL_ID, # Use your log channel/group ID for the test
+            LOG_CHANNEL_ID,
             "http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4"
         )
-        # Immediately stop the stream after connecting successfully
         await vc_client.leave_group_call(LOG_CHANNEL_ID) 
         
     except NoActiveGroupCall:
@@ -86,11 +73,8 @@ async def init():
         )
         exit()
     except Exception as e:
-        # General error during stream check (e.g., bot not admin in log channel VC)
         LOGGER("XMUSIC").warning(f"Initial VC stream check failed (non-fatal): {e}")
 
-
-    # Note: vc_client.decorators() is skipped unless you implement it in your framework
     
     LOGGER("XMUSIC").info("ᴍᴜsɪᴄ ʀᴏʙᴏᴛ sᴛᴀʀᴛᴇᴅ sᴜᴄᴄᴇsғᴜʟʟʏ...")
     
@@ -103,13 +87,11 @@ async def init():
 
 
 if __name__ == "__main__":
-    # Ensure correct event loop handling
     try:
         asyncio.get_event_loop().run_until_complete(init())
     except KeyboardInterrupt:
         LOGGER("XMUSIC").info("User requested shutdown (Ctrl+C).")
-        # Clean up files in the downloads folder before exit
         if os.path.exists("downloads"):
              import shutil
              shutil.rmtree("downloads")
-    
+                                 
